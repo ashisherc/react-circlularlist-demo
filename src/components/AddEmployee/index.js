@@ -11,7 +11,8 @@ class AddEmployee extends Component {
     this.state = {
       email: "",
       name: "",
-      employeeId: ""
+      employeeId: "",
+      error: false
     };
 
     this.addEmployee = this.addEmployee.bind(this);
@@ -19,11 +20,17 @@ class AddEmployee extends Component {
   }
 
   addEmployee() {
-    this.props.newEmployee(
-      this.state.name,
-      this.state.email,
-      this.state.employeeId
-    );
+    if(!this.state.name || !this.state.email, !this.state.employeeId){
+      this.setState({
+        error: true
+      })
+    }else{
+      this.props.newEmployee(
+        this.state.name,
+        this.state.email,
+        this.state.employeeId
+      );
+    }
   }
 
   handleChange(event) {
@@ -75,6 +82,9 @@ class AddEmployee extends Component {
           />
         </DialogContent>
         <DialogActions>
+          { this.state.error ? 
+            <p>Please enter all the details!</p> : null
+          }
           <Button onClick={this.addEmployee} color="primary">
             Add
           </Button>
